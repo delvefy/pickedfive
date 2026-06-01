@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Picked5 — Five picks, ranked.</title>
+  <meta name="description" content="Top-five rankings, decided by a transparent rubric: performance first, then value, then reliability. Researched and written by Claude.">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="index.html"><b>Picked</b><span class="five">5</span></a>
+      <span class="spacer"></span>
+      <span class="pill hide-sm">
+        <span class="dot"></span>
+        Performance <span class="arrow">→</span> Value <span class="arrow">→</span> Reliability
+      </span>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <h1>The five best.<br><span class="hl">Ranked, not listed.</span></h1>
+      <p class="lede">
+        Every guide picks one category and names the five best — ordered best to worst
+        by one consistent rubric. No affiliate fluff, no ties. Researched and written by Claude.
+      </p>
+      <div class="method">
+        <span class="chip"><span class="n">1.</span> Performance</span>
+        <span class="chip"><span class="n">2.</span> Value</span>
+        <span class="chip"><span class="n">3.</span> Reliability</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="sec-head">
+      <h2>Latest rankings</h2>
+      <span class="count" id="count"></span>
+    </div>
+
+    <div class="cards" id="cards">
+      <!-- article cards injected from window.ARTICLES (articles.js) -->
+    </div>
+
+    <div class="more-row" id="moreRow" hidden>
+      <button class="btn ghost" id="moreBtn">See more rankings</button>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <span>Picked5 — five picks, ranked. © 2026</span>
+      <span><a href="produce.txt">How rankings are made</a></span>
+    </div>
+  </footer>
+
+  <!-- The manifest is a plain <script> (not a fetch) so the page works on
+       file:// too — just double-click index.html. See produce.txt. -->
+  <script src="articles.js"></script>
+  <script>
+    // The site is fully static. The browser can't list a folder's contents,
+    // so articles.js (window.ARTICLES) is the source of truth:
+    // newest-first, each with a timestamp.
+    const PAGE = 10;           // show the 10 most recent first
+    let articles = [];
+    let shown = 0;
+
+    const fmtDate = (iso) => {
+      const d = new Date(iso);
+      if (isNaN(d)) return iso;
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    };
+    const esc = (s) => String(s).replace(/[&<>"]/g, c =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    function cardHTML(a, featured) {
+      const peek = (a.picks || []).slice(0, 5)
+        .map((p, i) => `<span>${i + 1}. ${esc(p)}</span>`).join('');
+      return `
+        <a class="card${featured ? ' feature' : ''}" href="${esc(a.url)}">
+          <span class="eyebrow">${esc(a.category)} <span class="date">· ${fmtDate(a.date)}</span></span>
+          <h3>${esc(a.title)}</h3>
+          <p>${esc(a.summary)}</p>
+          ${peek ? `<div class="rankpeek">${peek}</div>` : ''}
+          <span class="read">Read the ranking <span class="arr">→</span></span>
+        </a>`;
+    }
+
+    function render() {
+      const cards = document.getElementById('cards');
+      const batch = articles.slice(shown, shown + PAGE);
+      const html = batch.map((a, i) =>
+        cardHTML(a, shown === 0 && i === 0)   // first (newest) card is featured
+      ).join('');
+      cards.insertAdjacentHTML('beforeend', html);
+      shown += batch.length;
+
+      document.getElementById('count').textContent =
+        `${shown} of ${articles.length}`;
+      document.getElementById('moreRow').hidden = shown >= articles.length;
+    }
+
+    function boot() {
+      const data = window.ARTICLES;
+      if (!data || !Array.isArray(data.articles)) {
+        document.getElementById('cards').innerHTML =
+          '<p class="empty">Manifest not found. Make sure articles.js loads before this script.</p>';
+        return;
+      }
+      articles = data.articles
+        .slice()
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+      if (!articles.length) {
+        document.getElementById('cards').innerHTML =
+          '<p class="empty">No rankings published yet.</p>';
+        return;
+      }
+      render();
+    }
+
+    document.getElementById('moreBtn').addEventListener('click', render);
+    boot();
+  </script>
+</body>
+</html>
