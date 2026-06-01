@@ -1,0 +1,167 @@
+================================================================
+PICKED5 — PRODUCTION SPEC
+How Claude generates each "Top 5" article for this site.
+Read this whole file before producing a new ranking.
+================================================================
+
+------------------------------------------------------------
+0. WHAT THIS SITE IS
+------------------------------------------------------------
+Picked5 is a 100% static website (no backend, no build step).
+Each article ranks the FIVE best items in one category, ordered
+best -> worst, using ONE fixed rubric so every list is comparable
+and reproducible.
+
+The home page (index.html) cannot read the /articles folder on its
+own — browsers can't list a directory. So articles.js is the single
+source of truth: it sets window.ARTICLES, the home page reads it and
+renders the newest 10, with a "See more" button for the rest. Whenever
+you publish an article you MUST add an entry to articles.js (see section 5).
+
+Why a .js file and not .json: a <script src="articles.js"> tag loads under
+the file:// protocol, so the site works when you just double-click
+index.html. A fetch() of a local .json file would be blocked by the
+browser's file:// security policy.
+
+File layout:
+  index.html                      home page (do not hand-edit the list; it reads window.ARTICLES)
+  articles.js                     manifest of all articles (newest first) — sets window.ARTICLES
+  produce.txt                     this file
+  assets/style.css                shared design system — REUSE its classes
+  articles/<slug>.html            one file per ranking
+
+------------------------------------------------------------
+1. THE RANKING RUBRIC  (do not change the weights)
+------------------------------------------------------------
+Score every candidate 0–10 on three axes, then combine:
+
+    FINAL = 0.50 * Performance
+          + 0.30 * Value
+          + 0.20 * Reliability
+
+Order the list from highest FINAL to lowest. Exactly 5 entries.
+Break ties toward the higher Performance score.
+
+Axis definitions (adapt the sub-criteria to the category, keep the spirit):
+
+  PERFORMANCE (50%) — the primary axis. Raw capability and how well it
+  holds up in real use. For phones: SoC compute (Geekbench/AnTuTu), GPU,
+  SUSTAINED performance under thermal load (not just peak), RAM/storage
+  speed, display responsiveness. For other categories, map to the
+  equivalent "how good is it at its core job" measures.
+
+  VALUE (30%) — price relative to what you actually get. A cheaper item
+  that delivers most of the performance should out-score an expensive one
+  that delivers a little more. Use real launch/street prices.
+
+  RELIABILITY (20%) — will it keep being good? Software/support longevity,
+  build quality & durability, brand track record, battery/wear longevity,
+  thermal and long-term stability, warranty/service network.
+
+Scoring discipline:
+  - Be willing to rank household names BELOW lesser-known products when the
+    rubric says so. The methodology is the point — not consensus picks.
+  - Show your scores. Every entry displays its three sub-scores and the
+    weighted overall, and the article opens with a comparison table. The
+    numbers must actually add up to the displayed FINAL (rounded to 1 dp).
+  - Label scores as Picked5's own editorial ratings derived from cited sources.
+
+------------------------------------------------------------
+2. RESEARCH REQUIREMENTS
+------------------------------------------------------------
+  - Research the web for CURRENT data before ranking. Use the real model
+    names, prices, chips and benchmarks available at publication time.
+  - Prefer recent, reputable reviews and benchmark sources (GSMArena,
+    Notebookcheck, AnandTech-style outlets, Tom's Guide, TechRadar, Android
+    Authority, manufacturer spec pages, etc.). Cross-check at least 2 sources
+    for any contested number.
+  - NEVER fabricate specs, prices or benchmark figures. If a number is
+    uncertain, phrase it cautiously ("around", "starting at") or omit it.
+  - Collect the source URLs as you go — every article ends with a numbered
+    "Sources & benchmarks" list, and key factual claims link inline.
+  - Note honest caveats (e.g. thermal throttling, short update windows,
+    weak cameras). The disclaimer paragraph is mandatory.
+
+------------------------------------------------------------
+3. VOICE & STYLE
+------------------------------------------------------------
+  - Confident, specific, no fluff. Short editor's-verdict sentences.
+  - Each entry: a one-line verdict, the score bars, For/Against lists, and
+    1–2 short "take" paragraphs that JUSTIFY the placement against the rubric
+    (especially WHY it isn't higher/lower).
+  - Explain surprises explicitly ("it lands 2nd not 1st because reliability…").
+  - US English. Prices in USD with a "from $X" framing.
+
+------------------------------------------------------------
+4. ARTICLE HTML TEMPLATE
+------------------------------------------------------------
+Copy the structure of articles/top-mobile-phones-2026.html — it is the
+reference template. Reuse the existing CSS classes from assets/style.css;
+do NOT invent new styling or inline a new stylesheet. Required sections,
+in order:
+
+  <head>      title "<Article Title> — Picked5", meta description,
+              <link rel="stylesheet" href="../assets/style.css">
+  nav.nav     same brand + methodology pill as the reference (note: assets
+              and links are one level up, so use ../ paths)
+  article.art-head   eyebrow (category), <h1>, .deck standfirst.
+                     DO NOT add a byline, an "Updated <date>" line, a
+                     "Generated by Claude" tag, or a "N ranked best -> worst"
+                     line. The article goes straight from the deck into the
+                     method-box. (No .byline element at all.)
+  .method-box        restate the rubric + the three weight chips
+  intro <p>(s)       category context; link key claims inline
+  table.cmp          comparison table: #, item, Perf, Value, Rel., Score, From
+  5 × section.entry  data-rank="1..5"; each contains:
+                       .numeral, .head (h3 + .verdict + .meta tags + .overall)
+                       .scores (three .row bars; <i style="width:NN%"> = score*10)
+                       .pc (For / Against lists)
+                       1–2 <p class="take"> paragraphs
+  .sources           numbered <ol> of source links + .disclaimer paragraph
+  footer.foot        same as reference: the "© 2026" line and a
+                     "How rankings are made" link to ../produce.txt.
+                     DO NOT add any "Generated by Claude" / "Rankings
+                     generated by Claude" attribution anywhere on the page
+                     (not in the footer, byline, or body).
+
+Bar widths: width % = score * 10  (e.g. 9.3 -> width:93%). Keep them in sync
+with the printed sub-scores and the comparison table.
+
+------------------------------------------------------------
+5. PUBLISHING — UPDATE THE MANIFEST (required)
+------------------------------------------------------------
+After writing articles/<slug>.html, PREPEND a new object to the "articles"
+array in articles.js (newest first) and bump "updated". The home page
+sorts by "date" descending and shows the newest 10, so the timestamp matters.
+
+Entry schema (a JavaScript object literal inside window.ARTICLES.articles):
+  {
+    slug:     "kebab-case-id",                  // matches the html filename
+    title:    "Top 5 <Things> of <Year>",
+    category: "Smartphones",                    // shown as the card eyebrow
+    date:     "YYYY-MM-DD",                      // publication date = sort key
+    summary:  "One or two sentences for the card.",
+    url:      "articles/<slug>.html",            // relative to index.html
+    picks:    ["#1 name", "#2", "#3", "#4", "#5"] // best->worst, for the card preview
+  }
+
+Rules:
+  - slug = lowercase, hyphenated, no spaces; the html file is articles/<slug>.html.
+  - "picks" is ordered best -> worst and must match the article's ranking.
+  - Keep articles.js valid JavaScript: it must set window.ARTICLES, and the
+    array must have no trailing commas / no syntax errors (one bad comma
+    breaks the whole home page).
+
+------------------------------------------------------------
+6. PRE-PUBLISH CHECKLIST
+------------------------------------------------------------
+  [ ] Researched current data; sources collected and cited inline + listed.
+  [ ] Exactly 5 entries, ordered by FINAL score (best -> worst).
+  [ ] Sub-scores * weights actually equal each displayed overall (1 dp).
+  [ ] Score bar widths = score * 10, consistent with table + entry numbers.
+  [ ] Comparison table matches the five entries.
+  [ ] Placement of each item is justified against the rubric in the prose.
+  [ ] Disclaimer paragraph present; no fabricated numbers.
+  [ ] articles/<slug>.html uses ../ paths for css/links and reuses style.css.
+  [ ] New entry prepended to articles.js; "updated" bumped; file still valid JS.
+================================================================
