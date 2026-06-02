@@ -601,7 +601,7 @@ table.cmp td:nth-child(5) { display: none; }
   .entry::before { margin-bottom: 18px; }
   .entry .rank-row { column-gap: 24px; row-gap: 14px; }
   .entry .head h3 { font-size: 34px; }
-  .entry .head .verdict { font-size: 16.5px; }
+  .entry .head .verdict { font-size: 16.5px; max-width: none; }
   .entry .overall .big { font-size: 28px; }
   .entry .head .meta { font-size: 12px; }
   .entry .head .meta .tag + .tag::before { margin: 0 14px; }
@@ -618,7 +618,7 @@ table.cmp td:nth-child(5) { display: none; }
   .pc { grid-template-columns: 1fr 1fr; gap: 18px; }
   .pc li { font-size: 14px; }
 
-  .entry .take { font-size: 15px; }
+  .entry .take { font-size: 15px; max-width: none; }
 
   .sources { margin-top: 36px; }
   .sources h2 { font-size: 15px; }
