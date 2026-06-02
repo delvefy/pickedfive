@@ -11,8 +11,23 @@
    ============================================================ */
 window.ARTICLES = {
   site: "Picked5",
-  updated: "2026-06-02T00:00:00Z",
+  updated: "2026-06-02T12:00:00Z",
   articles: [
+    {
+      slug: "top-gaming-laptops-2026",
+      title: "Top 5 Gaming Laptops of 2026",
+      category: "Gaming Laptops",
+      date: "2026-06-02",
+      summary: "The most powerful portable gaming rigs of 2026, scored on raw performance first, then value, then reliability. The most expensive RTX 5090 flagships don't all finish where their spec sheets suggest.",
+      url: "articles/top-gaming-laptops-2026.html",
+      picks: [
+        "Lenovo Legion Pro 7i Gen 10",
+        "ASUS ROG Strix SCAR 18 (2026)",
+        "HP Omen Max 16",
+        "Alienware 18 Area-51",
+        "Razer Blade 16 (2026)"
+      ]
+    },
     {
       slug: "top-cars-2026",
       title: "Top 5 Cars of 2026",
