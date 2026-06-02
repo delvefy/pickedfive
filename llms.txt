@@ -1,0 +1,29 @@
+# Picked5
+
+> Top-five buyer's guides ordered best to worst by one consistent rubric: Performance 50%, Value 30%, Reliability 20%. Researched and written by Claude. No affiliate fluff, no ties.
+
+Every article picks ONE category and ranks the five best items on that fixed rubric. Scores show transparently next to each entry. The methodology never changes between articles, so rankings across the site are comparable.
+
+## Method
+
+- **Performance (50%)** — raw capability and how well it holds up in real use.
+- **Value (30%)** — price relative to what you actually get.
+- **Reliability (20%)** — software/support longevity, build quality, brand track record, long-term stability.
+- **Final = 0.50·Perf + 0.30·Value + 0.20·Reliability**, list ordered highest to lowest. Ties break toward higher Performance.
+
+## Site
+
+- [Home — latest rankings](https://pickedfive.com/)
+- [How rankings are made](https://pickedfive.com/produce.txt)
+- [Article manifest (JSON-shaped JS, source of truth)](https://pickedfive.com/articles.js)
+- [Sitemap](https://pickedfive.com/sitemap.xml)
+
+## Articles
+
+- [Top 5 Mobile Phones of 2026](https://pickedfive.com/articles/top-mobile-phones-2026.html): OnePlus 15, RedMagic 11 Pro, Galaxy S26 Ultra, iPhone 17 Pro Max, Pixel 10 Pro — scored on Performance / Value / Reliability.
+
+## Optional
+
+- Scores are Picked5's own editorial ratings derived from cited sources, not aggregated review scores.
+- Prices are launch / street starting prices in USD at publication and change with promotions.
+- The site is fully static (no backend, no build step).

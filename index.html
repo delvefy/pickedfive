@@ -2,40 +2,114 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Picked5 — Five picks, ranked.</title>
-  <meta name="description" content="Top-five rankings, decided by a transparent rubric: performance first, then value, then reliability. Researched and written by Claude.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Picked5 — Top-five rankings, decided by one rubric.</title>
+  <meta name="description" content="Top-five rankings on one consistent rubric: performance first, then value, then reliability. Researched and written by Claude. No affiliate fluff, no ties.">
+
+  <!-- crawler / AI hints -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta name="author" content="Picked5">
+  <meta name="keywords" content="best of 2026, top 5, rankings, buyer's guide, smartphones, electronics, performance value reliability">
+  <meta name="application-name" content="Picked5">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#060a18" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef3fb" media="(prefers-color-scheme: light)">
+  <link rel="canonical" href="https://pickedfive.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Picked5">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Picked5 — Top-five rankings, decided by one rubric">
+  <meta property="og:description" content="Every guide picks one category and names the five best — ranked by performance, value, reliability. Researched and written by Claude.">
+  <meta property="og:url" content="https://pickedfive.com/">
+  <meta property="og:image" content="https://pickedfive.com/assets/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Picked5 — Top-five rankings, decided by one rubric">
+  <meta name="twitter:description" content="Top-five rankings, ordered best to worst by one consistent rubric. Researched and written by Claude.">
+  <meta name="twitter:image" content="https://pickedfive.com/assets/og-default.png">
+
+  <!-- discovery -->
+  <link rel="alternate" type="application/json" title="Picked5 article manifest" href="articles.js">
+
   <script src="assets/theme.js"></script>
   <link rel="stylesheet" href="assets/style.css">
+
+  <!-- Structured data: WebSite + CollectionPage. ItemList is injected at runtime from articles.js. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://pickedfive.com/#website",
+        "url": "https://pickedfive.com/",
+        "name": "Picked5",
+        "description": "Top-five rankings, decided by a transparent rubric: performance first, then value, then reliability.",
+        "inLanguage": "en",
+        "publisher": { "@id": "https://pickedfive.com/#organization" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://pickedfive.com/#organization",
+        "name": "Picked5",
+        "url": "https://pickedfive.com/",
+        "logo": "https://pickedfive.com/assets/logo.png"
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": "https://pickedfive.com/#collection",
+        "url": "https://pickedfive.com/",
+        "name": "Picked5 — Latest rankings",
+        "description": "Every guide picks one category and names the five best — ordered best to worst by one consistent rubric.",
+        "isPartOf": { "@id": "https://pickedfive.com/#website" },
+        "inLanguage": "en",
+        "about": {
+          "@type": "Thing",
+          "name": "Ranked top-five buyer's guides on a transparent rubric: Performance 50%, Value 30%, Reliability 20%."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
-  <nav class="nav">
+  <a class="skip-link" href="#main">Skip to rankings</a>
+
+  <nav class="nav" aria-label="Primary">
     <div class="wrap">
-      <a class="brand" href="index.html"><b>Picked</b><span class="five">5</span></a>
+      <a class="brand" href="index.html" aria-label="Picked5 home"><b>Picked</b><span class="five">5</span></a>
       <span class="spacer"></span>
-      <span class="pill hide-sm">
+      <span class="pill hide-sm" aria-hidden="true">
         <span class="dot"></span>
         Performance <span class="arrow">→</span> Value <span class="arrow">→</span> Reliability
       </span>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme">
-        <span class="t-icon t-sun">☀</span>
-        <span class="t-icon t-moon">☾</span>
+        <span class="t-icon t-sun" aria-hidden="true">☀</span>
+        <span class="t-icon t-moon" aria-hidden="true">☾</span>
       </button>
     </div>
   </nav>
 
-  <main class="wrap">
+  <main class="wrap" id="main">
+    <h1 class="sr-only">Picked5 — top-five rankings ordered best to worst by one rubric: performance, value, reliability.</h1>
+
     <div class="sec-head">
       <h2>Latest rankings</h2>
       <span class="count" id="count"></span>
     </div>
 
-    <div class="cards" id="cards">
+    <section class="cards" id="cards" aria-label="Latest top-five rankings">
       <!-- article cards injected from window.ARTICLES (articles.js) -->
-    </div>
+    </section>
 
     <div class="more-row" id="moreRow" hidden>
-      <button class="btn ghost" id="moreBtn">See more rankings</button>
+      <button class="btn ghost" id="moreBtn" type="button">See more rankings</button>
     </div>
   </main>
 
@@ -46,14 +120,12 @@
     </div>
   </footer>
 
-  <!-- The manifest is a plain <script> (not a fetch) so the page works on
-       file:// too — just double-click index.html. See produce.txt. -->
+  <!-- Manifest is a plain <script> (not a fetch) so the page works on file:// too. See produce.txt. -->
   <script src="articles.js"></script>
   <script>
-    // The site is fully static. The browser can't list a folder's contents,
-    // so articles.js (window.ARTICLES) is the source of truth:
-    // newest-first, each with a timestamp.
-    const PAGE = 10;           // show the 10 most recent first
+    // Single source of truth: window.ARTICLES, newest-first.
+    const PAGE = 10;
+    const SITE_URL = 'https://pickedfive.com/';
     let articles = [];
     let shown = 0;
 
@@ -69,12 +141,12 @@
       const peek = (a.picks || []).slice(0, 5)
         .map((p, i) => `<span>${i + 1}. ${esc(p)}</span>`).join('');
       return `
-        <a class="card${featured ? ' feature' : ''}" href="${esc(a.url)}">
-          <span class="eyebrow">${esc(a.category)} <span class="date">· ${fmtDate(a.date)}</span></span>
-          <h3>${esc(a.title)}</h3>
+        <a class="card${featured ? ' feature' : ''}" href="${esc(a.url)}" aria-labelledby="t-${esc(a.slug)}">
+          <span class="eyebrow">${esc(a.category)} <span class="date">· <time datetime="${esc(a.date)}">${fmtDate(a.date)}</time></span></span>
+          <h3 id="t-${esc(a.slug)}">${esc(a.title)}</h3>
           <p>${esc(a.summary)}</p>
-          ${peek ? `<div class="rankpeek">${peek}</div>` : ''}
-          <span class="read">Read the ranking <span class="arr">→</span></span>
+          ${peek ? `<div class="rankpeek" aria-label="Top picks preview">${peek}</div>` : ''}
+          <span class="read">Read the ranking <span class="arr" aria-hidden="true">→</span></span>
         </a>`;
     }
 
@@ -82,7 +154,7 @@
       const cards = document.getElementById('cards');
       const batch = articles.slice(shown, shown + PAGE);
       const html = batch.map((a, i) =>
-        cardHTML(a, shown === 0 && i === 0)   // first (newest) card is featured
+        cardHTML(a, shown === 0 && i === 0)
       ).join('');
       cards.insertAdjacentHTML('beforeend', html);
       shown += batch.length;
@@ -90,6 +162,30 @@
       document.getElementById('count').textContent =
         `${shown} of ${articles.length}`;
       document.getElementById('moreRow').hidden = shown >= articles.length;
+    }
+
+    // Inject a CollectionPage ItemList JSON-LD so JS-running crawlers (and AI
+    // agents) see the full list of articles as structured data.
+    function injectItemList() {
+      const items = articles.map((a, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: SITE_URL + a.url,
+        name: a.title
+      }));
+      const data = {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        '@id': SITE_URL + '#articles',
+        name: 'Picked5 rankings',
+        itemListOrder: 'https://schema.org/ItemListOrderDescending',
+        numberOfItems: articles.length,
+        itemListElement: items
+      };
+      const s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.textContent = JSON.stringify(data);
+      document.head.appendChild(s);
     }
 
     function boot() {
@@ -108,6 +204,7 @@
         return;
       }
       render();
+      injectItemList();
     }
 
     document.getElementById('moreBtn').addEventListener('click', render);
