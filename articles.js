@@ -11,8 +11,53 @@
    ============================================================ */
 window.ARTICLES = {
   site: "Picked5",
-  updated: "2026-06-02T12:00:00Z",
+  updated: "2026-06-02T18:00:00Z",
   articles: [
+    {
+      slug: "top-smartwatches-2026",
+      title: "Top 5 Smartwatches of 2026",
+      category: "Smartwatches",
+      date: "2026-06-02",
+      summary: "Five smartwatches that earned their spot in 2026, scored on Performance, Value and Reliability — from the Apple Watch Ultra 3 to the bargain OnePlus Watch 3.",
+      url: "articles/top-smartwatches-2026.html",
+      picks: [
+        "Apple Watch Ultra 3",
+        "Garmin Fenix 8 Pro",
+        "OnePlus Watch 3",
+        "Galaxy Watch Ultra (2025)",
+        "Pixel Watch 4"
+      ]
+    },
+    {
+      slug: "top-headphones-2026",
+      title: "Top 5 Headphones of 2026",
+      category: "Headphones",
+      date: "2026-06-02",
+      summary: "Sony's WH-1000XM6 reclaims the crown for 2026, with the B&W Px7 S3 and Bose QC Ultra 2 tied behind it, Sennheiser's HDB 630 winning on pure sound, and AirPods Max 2 bringing up the rear.",
+      url: "articles/top-headphones-2026.html",
+      picks: [
+        "Sony WH-1000XM6",
+        "Bowers & Wilkins Px7 S3",
+        "Bose QC Ultra (2nd Gen)",
+        "Sennheiser HDB 630",
+        "Apple AirPods Max 2"
+      ]
+    },
+    {
+      slug: "top-tablets-2026",
+      title: "Top 5 Tablets of 2026",
+      category: "Tablets",
+      date: "2026-06-02",
+      summary: "From the M5 iPad Pro to the $499 Xiaomi Pad 7 Pro, the five tablets worth buying in 2026 — scored on Performance, Value and Reliability.",
+      url: "articles/top-tablets-2026.html",
+      picks: [
+        "iPad Pro 13\" (M5, 2025)",
+        "OnePlus Pad 3",
+        "iPad Air 13\" (M3, 2025)",
+        "Galaxy Tab S11 Ultra",
+        "Xiaomi Pad 7 Pro"
+      ]
+    },
     {
       slug: "top-gaming-laptops-2026",
       title: "Top 5 Gaming Laptops of 2026",
