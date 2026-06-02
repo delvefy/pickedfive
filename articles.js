@@ -11,8 +11,23 @@
    ============================================================ */
 window.ARTICLES = {
   site: "Picked5",
-  updated: "2026-06-01T00:00:00Z",
+  updated: "2026-06-02T00:00:00Z",
   articles: [
+    {
+      slug: "top-cars-2026",
+      title: "Top 5 Cars of 2026",
+      category: "Cars",
+      date: "2026-06-02",
+      summary: "The most-decorated new cars of 2026, scored on performance first, then value, then reliability. The award winners don't all finish where you'd expect.",
+      url: "articles/top-cars-2026.html",
+      picks: [
+        "VW Golf GTI / R",
+        "Tesla Model Y",
+        "Hyundai Palisade",
+        "Dodge Charger",
+        "Lucid Gravity"
+      ]
+    },
     {
       slug: "top-mobile-phones-2026",
       title: "Top 5 Mobile Phones of 2026",
